@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profesi;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -42,10 +43,13 @@ class ProfesiController extends Controller
 
         $profesi->nama_profesi = $request->nama_profesi;
         $profesi->minimal_gaji_bulanan = $request->minimal_gaji_bulanan;
-        if ($request->file('foto')) {
-            $profesi->foto = $request->file('foto')->store('foto-profesi');
-        }
 
+        $foto = $request->file('foto');
+        $destinationPath = 'images/';
+        $profileImage = Str::slug($request->nama_profesi) . "." . $foto->getClientOriginalExtension();
+        $foto->move($destinationPath, $profileImage);
+
+        $profesi->foto = $profileImage;
         $profesi->save();
 
         return redirect('/admin');
@@ -57,11 +61,17 @@ class ProfesiController extends Controller
 
         $profesi->nama_profesi = $request->nama_profesiUpdate;
         $profesi->minimal_gaji_bulanan = $request->minimal_gaji_bulananUpdate;
-        if ($request->file('fotoUpdate')) {
-            if ($request->fotoLama) {
-                Storage::delete($request->fotoLama);
-            }
-            $profesi->foto = $request->file('fotoUpdate')->store('foto-profesi');
+
+        if($request->fotoUpdate){
+            $file_path = public_path().'/images/'.$profesi->foto;
+            unlink($file_path);
+
+            $foto = $request->file('fotoUpdate');
+            $destinationPath = 'images/';
+            $profileImage = Str::slug($request->nama_profesiUpdate) . "." . $foto->getClientOriginalExtension();
+            $foto->move($destinationPath, $profileImage);
+
+            $profesi->foto = $profileImage;
         }
 
         $profesi->update();
@@ -73,7 +83,8 @@ class ProfesiController extends Controller
     {
         $profesi = Profesi::where('id', $id)->first();
         if ($profesi->foto) {
-            Storage::delete($profesi->foto);
+            $file_path = public_path().'/images/'.$profesi->foto;
+            unlink($file_path);
         }
 
         $profesi->delete();
