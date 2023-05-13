@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profesi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProfesiCreateRequest;
 use App\Http\Requests\ProfesiUpdateRequest;
 
@@ -43,7 +43,7 @@ class ProfesiController extends Controller
         $profesi->nama_profesi = $request->nama_profesi;
         $profesi->minimal_gaji_bulanan = $request->minimal_gaji_bulanan;
         if ($request->file('foto')) {
-            $profesi->foto = 'images/'.$request->file('foto')->store('');
+            $profesi->foto = $request->file('foto')->store('foto-profesi');
         }
 
         $profesi->save();
@@ -59,9 +59,9 @@ class ProfesiController extends Controller
         $profesi->minimal_gaji_bulanan = $request->minimal_gaji_bulananUpdate;
         if ($request->file('fotoUpdate')) {
             if ($request->fotoLama) {
-                File::delete($request->fotoLama);
+                Storage::delete($request->fotoLama);
             }
-            $profesi->foto = 'images/'.$request->file('fotoUpdate')->store('');
+            $profesi->foto = $request->file('fotoUpdate')->store('foto-profesi');
         }
 
         $profesi->update();
@@ -73,7 +73,7 @@ class ProfesiController extends Controller
     {
         $profesi = Profesi::where('id', $id)->first();
         if ($profesi->foto) {
-            File::delete($profesi->foto);
+            Storage::delete($profesi->foto);
         }
 
         $profesi->delete();
