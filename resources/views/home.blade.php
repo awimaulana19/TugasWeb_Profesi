@@ -100,10 +100,10 @@
             <div class="row d-flex flex-wrap justify-content-center step-row">
                 @if ($profesi->isNotEmpty())
                     @foreach ($profesi as $item)
-                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 text-center">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 text-center mb-5">
                             <div class="card border-0 shadow">
                                 <div class="card-body">
-                                    <img src="{{ asset('storage/' . $item->foto) }}" alt="coba" width="100%"
+                                    <img src="{{ asset($item->foto) }}" alt="coba" width="100%"
                                         style="max-height: 250px;">
                                     <h5 class="mb-0 fw-500">{{ $item->nama_profesi }}</h5>
                                     <h3 class="fs-7">Dengan Minimal Gaji</h3>

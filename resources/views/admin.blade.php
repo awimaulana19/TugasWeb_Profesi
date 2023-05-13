@@ -271,7 +271,7 @@
                                 <td>{{ $item->nama_profesi }}</td>
                                 <td>{{ $item->minimal_gaji_bulanan }}</td>
                                 <td>
-                                    <img class="mt-3" src="{{ asset('storage/' . $item->foto) }}" alt="foto"
+                                    <img class="mt-3" src="{{ asset($item->foto) }}" alt="foto"
                                         width="200px" style="max-height: 200px;">
                                 </td>
                                 <td>
