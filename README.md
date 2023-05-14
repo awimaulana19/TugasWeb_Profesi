@@ -4,7 +4,7 @@ php artisan migrate --seed
 
 php artisan key:generate
 
-Login Admin ({app}/login)
+Login Admin CRUD ({app}/login)
 
 Username : admin
 
