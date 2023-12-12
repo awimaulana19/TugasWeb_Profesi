@@ -13,6 +13,9 @@ class ProfesiCreateRequest extends FormRequest
      */
     public function authorize()
     {
+        if (!$this->user()->admin) {
+            return false;
+        }
         return true;
     }
 
@@ -32,7 +35,7 @@ class ProfesiCreateRequest extends FormRequest
 
     public function messages()
     {
-        return[
+        return [
             'nama_profesi.string' => 'Nama profesi harus bertipe string',
             'nama_profesi.max' => 'Nama profesi maximal 50 karakter',
             'minimal_gaji_bulanan.string' => 'Minimal gaji bulanan harus bertipe string',

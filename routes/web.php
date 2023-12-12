@@ -21,3 +21,12 @@ Route::get('/admin', [ProfesiController::class, 'admin'])->middleware('auth');
 Route::post('/tambah', [ProfesiController::class, 'store'])->middleware('auth');
 Route::post('/edit/{id}', [ProfesiController::class, 'update'])->middleware('auth');
 Route::get('/hapus/{id}', [ProfesiController::class, 'hapus'])->middleware('auth');
+
+Route::get('/check-connection', function () {
+    try {
+        DB::connection()->getPdo();
+        return "Database connection is established.";
+    } catch (\Exception $e) {
+        return "Unable to connect to the database. Error: " . $e->getMessage();
+    }
+});
